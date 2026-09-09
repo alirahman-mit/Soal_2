@@ -34,8 +34,8 @@ def download_models():
     path_model_2 = 'models/Model_VGG16_Tomat.h5'
     
     # ID file dari link Google Drive kamu
-    id_model_1 = '1Iwz4rct0Ao3vzkgpReJH9UK3JNpmwY4T'
-    id_model_2 = '1GLIBTbvoY48lFUDVRULtSsX9hPi6R9oJ'
+    id_model_1 = '1GLIBTbvoY48lFUDVRULtSsX9hPi6R9oJ'  # Apel
+    id_model_2 = '1Iwz4rct0Ao3vzkgpReJH9UK3JNpmwY4T'  # Tomat
     
     # Eksekusi download jika file belum ada di folder models/
     if not os.path.exists(path_model_1):
