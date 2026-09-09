@@ -73,7 +73,7 @@ LABELS_MODE_2  = [
     "Tomato Mosaic Virus",      # 8 — Virus Mosaik
     "Healthy",                  # 9 — Daun Sehat
 ]
-SIZE_MODE_2    = (224, 224)
+SIZE_MODE_2    = (128, 128)
 
 CHIP_TOMAT = [
     "chip-red", "chip-red", "chip-red", "chip-yellow", "chip-red",
