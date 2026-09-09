@@ -252,7 +252,7 @@ def preprocess_image(image, target_size: tuple) -> np.ndarray:
     image = image.resize(target_size)
 
     # Langkah 3 & 4: Array float32 + normalisasi
-    img_array = np.array(image, dtype=np.float32) / 255.0
+    img_array = np.array(image, dtype=np.float32)
 
     # Langkah 5: Tambah dimensi batch
     img_array = np.expand_dims(img_array, axis=0)
