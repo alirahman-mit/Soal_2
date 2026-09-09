@@ -26,27 +26,37 @@ st.set_page_config(
 if not os.path.exists('models'):
     os.makedirs('models')
 
-# 2. Fungsi sakti untuk auto-download dari Google Drive
-@st.cache_resource  # Supaya downloadnya cuma 1x saat awal aplikasi jalan
+# 2. Fungsi download model dari Google Drive
 def download_models():
-    # NAMA FILE HARUS PERSIS SAMA DENGAN YANG DICARI APLIKASI
+
     path_model_1 = 'models/Model_Custom_ApelJeruk.h5'
     path_model_2 = 'models/Model_VGG16_Tomat.h5'
-    
-    # ID file dari link Google Drive kamu
-    id_model_1 = '1GLIBTbvoY48lFUDVRULtSsX9hPi6R9oJ'  # Apel
-    id_model_2 = '1Iwz4rct0Ao3vzkgpReJH9UK3JNpmwY4T'  # Tomat
-    
-    # Eksekusi download jika file belum ada di folder models/
-    if not os.path.exists(path_model_1):
-        with st.spinner("Mendownload model Apel vs Jeruk (~55MB)..."):
-            gdown.download(id=id_model_1, output=path_model_1, quiet=False)
-            
-    if not os.path.exists(path_model_2):
-        with st.spinner("Mendownload model VGG-16 Tomat (~183MB)..."):
-            gdown.download(id=id_model_2, output=path_model_2, quiet=False)
 
-# 3. PANGGIL FUNGSINYA DI SINI AGAR BERJALAN!
+    # ID Google Drive
+    id_model_1 = '1GLIBTbvoY48lFUDVRULtSsX9hPi6R9oJ'  # Apel / Jeruk
+    id_model_2 = '1Iwz4rct0Ao3vzkgpReJH9UK3JNpmwY4T'  # Tomat
+
+    # Hapus model lama agar tidak menggunakan file yang tertukar
+    if os.path.exists(path_model_1):
+        os.remove(path_model_1)
+
+    if os.path.exists(path_model_2):
+        os.remove(path_model_2)
+
+    with st.spinner("Mendownload model Apel vs Jeruk..."):
+        gdown.download(
+            id=id_model_1,
+            output=path_model_1,
+            quiet=False
+        )
+
+    with st.spinner("Mendownload model VGG16 Tomat..."):
+        gdown.download(
+            id=id_model_2,
+            output=path_model_2,
+            quiet=False
+        )
+
 download_models()
 
 load_custom_css()
