@@ -225,11 +225,7 @@ with col_result:
                 raw = np.random.rand(N_KELAS)
                 probs = raw / raw.sum()
             else:
-                print("DEBUG MODE:", mode)
-                print("DEBUG MODEL PATH:", MODEL_PATH)
-                print("DEBUG TARGET SIZE:", TARGET_SIZE)
-                print("DEBUG IMAGE ARRAY SHAPE:", img_array.shape)
-                print("DEBUG MODEL INPUT SHAPE:", model.input_shape)
+                raw_out = model.predict(img_array, verbose=0)
 
             if raw_out.shape[-1] == 1 or len(raw_out[0]) == 1:
                 # Model Biner Sigmoid
