@@ -8,8 +8,35 @@ import os
 import numpy as np
 import streamlit as st
 from PIL import Image
+import gdown
 
 from utils import load_custom_css, load_tf_model, preprocess_image
+# 1. Pastikan folder models tersedia
+if not os.path.exists('models'):
+    os.makedirs('models')
+
+# 2. Fungsi sakti untuk auto-download dari Google Drive
+@st.cache_resource  # Supaya downloadnya cuma 1x saat awal aplikasi jalan
+def download_models():
+    # Sesuaikan dengan nama file yang dipanggil di aplikasimu
+    path_model_1 = 'models/model_apel_jeruk.h5'
+    path_model_2 = 'models/model_tomat.h5'
+    
+    # ID file dari link Google Drive kamu
+    id_model_1 = '1Iwz4rct0Ao3vzkgpReJH9UK3JNpmwY4T'
+    id_model_2 = '1GLIBTbvoY48lFUDVRULtSsX9hPi6R9oJ'
+    
+    # Eksekusi download jika file belum ada di folder models/
+    if not os.path.exists(path_model_1):
+        with st.spinner("Mendownload model Apel vs Jeruk (~55MB)..."):
+            gdown.download(id=id_model_1, output=path_model_1, quiet=False)
+            
+    if not os.path.exists(path_model_2):
+        with st.spinner("Mendownload model VGG-16 Tomat (~183MB)..."):
+            gdown.download(id=id_model_2, output=path_model_2, quiet=False)
+
+# 3. Jalankan fungsinya sebelum masuk ke logika UI Streamlit
+download_models()
 
 # ─────────────────────────────────────────────────────────────────────────────
 # KONFIGURASI HALAMAN
