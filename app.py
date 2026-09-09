@@ -1,4 +1,4 @@
-﻿# =============================================================================
+# =============================================================================
 # app.py — Aplikasi Deteksi Gambar CNN (Single-Page)
 # Proyek  : Week 2 — Image Classification with CNN
 # Model   : Custom CNN (Apel vs Jeruk) | VGG16 Fine-tuned (Penyakit Daun Tomat)
@@ -26,7 +26,7 @@ st.set_page_config(
 if not os.path.exists('models'):
     os.makedirs('models')
 
-# 2. Fungsi download model dari Google Drive
+# 2. Fungsi download model dari Google Drive (hanya jika file belum ada)
 def download_models():
 
     path_model_1 = 'models/Model_Custom_ApelJeruk.h5'
@@ -36,26 +36,22 @@ def download_models():
     id_model_1 = '1GLIBTbvoY48lFUDVRULtSsX9hPi6R9oJ'  # Apel / Jeruk
     id_model_2 = '1Iwz4rct0Ao3vzkgpReJH9UK3JNpmwY4T'  # Tomat
 
-    # Hapus model lama agar tidak menggunakan file yang tertukar
-    if os.path.exists(path_model_1):
-        os.remove(path_model_1)
+    # Download hanya jika belum ada atau file kosong
+    if not os.path.exists(path_model_1) or os.path.getsize(path_model_1) == 0:
+        with st.spinner("Mendownload model Apel vs Jeruk..."):
+            gdown.download(
+                id=id_model_1,
+                output=path_model_1,
+                quiet=False
+            )
 
-    if os.path.exists(path_model_2):
-        os.remove(path_model_2)
-
-    with st.spinner("Mendownload model Apel vs Jeruk..."):
-        gdown.download(
-            id=id_model_1,
-            output=path_model_1,
-            quiet=False
-        )
-
-    with st.spinner("Mendownload model VGG16 Tomat..."):
-        gdown.download(
-            id=id_model_2,
-            output=path_model_2,
-            quiet=False
-        )
+    if not os.path.exists(path_model_2) or os.path.getsize(path_model_2) == 0:
+        with st.spinner("Mendownload model VGG16 Tomat..."):
+            gdown.download(
+                id=id_model_2,
+                output=path_model_2,
+                quiet=False
+            )
 
 download_models()
 
@@ -97,13 +93,30 @@ LABEL_ID_MODE_2 = [
 ]
 
 # =============================================================================
-# SIDEBAR — Navigasi & Konfigurasi
+# SIDEBAR — Navigasi & Konfigurasi Modern & Elegan
 # =============================================================================
 with st.sidebar:
-    st.markdown("## 🔬 CNN Classifier")
-    st.markdown("---")
+    # Header Brand dengan Ambient Glow & Pulse Dot
+    st.markdown("""
+    <div class="sidebar-brand">
+        <div class="brand-icon-wrapper">
+            <span class="brand-icon">🔬</span>
+        </div>
+        <div class="brand-info">
+            <h2 class="brand-title">NEURAL VISION</h2>
+            <span class="brand-badge"><span class="pulse-dot"></span> AI Engine Online</span>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
-    st.markdown("### 🗂️ Pilih Mode Deteksi")
+    # Section 1: Pemilihan Mode Navigasi Card-Style
+    st.markdown("""
+    <div class="sidebar-section-header">
+        <span class="section-tag">// NAVIGASI SISTEM</span>
+        <h4 class="section-title">Pilih Mode Klasifikasi</h4>
+    </div>
+    """, unsafe_allow_html=True)
+
     mode = st.radio(
         label="mode_radio",
         options=[
@@ -114,24 +127,115 @@ with st.sidebar:
         label_visibility="collapsed",
     )
 
-    st.markdown("---")
+    st.markdown('<div class="sidebar-glow-divider"></div>', unsafe_allow_html=True)
+
+    # Section 2: HUD Active Model Specifications Card
+    st.markdown("""
+    <div class="sidebar-section-header">
+        <span class="section-tag">// ARSITEKTUR AKTIF</span>
+        <h4 class="section-title">Spesifikasi Model</h4>
+    </div>
+    """, unsafe_allow_html=True)
 
     if "Mode 1" in mode:
-        st.markdown("**Model Aktif:**")
-        st.code("Model_Custom_ApelJeruk.h5", language="")
-        st.markdown("**Arsitektur:** Custom CNN")
-        st.markdown("**Input Shape:** `(150 × 150 × 3)`")
-        st.markdown("**Output:** Binary Sigmoid")
-    else:
-        st.markdown("**Model Aktif:**")
-        st.code("Model_VGG16_Tomat.h5", language="")
-        st.markdown("**Arsitektur:** VGG16 Fine-tuned")
-        st.markdown("**Input Shape:** `(224 × 224 × 3)`")
-        st.markdown("**Output:** 10 kelas Softmax")
+        st.markdown("""
+        <div class="sidebar-card">
+            <span class="sidebar-card-badge badge-purple">⚡ Custom CNN · Binary</span>
+            <div class="sidebar-model-chip">
+                <span style="font-size:0.95rem;">📦</span>
+                <code>Model_Custom_ApelJeruk.h5</code>
+            </div>
+            <div class="sidebar-spec-grid">
+                <div class="sidebar-spec-row">
+                    <span class="sidebar-spec-label">📐 Dimensi Input</span>
+                    <span class="sidebar-spec-value">150 × 150 × 3</span>
+                </div>
+                <div class="sidebar-spec-row">
+                    <span class="sidebar-spec-label">🎯 Fungsi Output</span>
+                    <span class="sidebar-spec-value">Binary Sigmoid</span>
+                </div>
+                <div class="sidebar-spec-row">
+                    <span class="sidebar-spec-label">🔬 Normalisasi</span>
+                    <span class="sidebar-spec-value">[0.0, 1.0] (1/255)</span>
+                </div>
+                <div class="sidebar-spec-row">
+                    <span class="sidebar-spec-label">🏷️ Jumlah Target</span>
+                    <span class="sidebar-spec-value">2 Kelas</span>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
 
-    st.markdown("---")
-    st.caption("Week 2 — CNN Image Classification")
-    st.caption("TensorFlow · Streamlit")
+        # Pratinjau Kategori Target Deteksi
+        st.markdown("""
+        <div style="margin-top: 10px;">
+            <span class="section-tag">// TARGET DETEKSI</span>
+            <div class="sidebar-chips-container">
+                <span class="sidebar-chip">🍎 Apel (Kelas 0)</span>
+                <span class="sidebar-chip">🍊 Jeruk (Kelas 1)</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    else:
+        st.markdown("""
+        <div class="sidebar-card">
+            <span class="sidebar-card-badge badge-cyan">🚀 VGG16 · Transfer Learning</span>
+            <div class="sidebar-model-chip">
+                <span style="font-size:0.95rem;">📦</span>
+                <code>Model_VGG16_Tomat.h5</code>
+            </div>
+            <div class="sidebar-spec-grid">
+                <div class="sidebar-spec-row">
+                    <span class="sidebar-spec-label">📐 Dimensi Input</span>
+                    <span class="sidebar-spec-value">224 × 224 × 3</span>
+                </div>
+                <div class="sidebar-spec-row">
+                    <span class="sidebar-spec-label">🎯 Fungsi Output</span>
+                    <span class="sidebar-spec-value">10-Class Softmax</span>
+                </div>
+                <div class="sidebar-spec-row">
+                    <span class="sidebar-spec-label">🔬 Backbone</span>
+                    <span class="sidebar-spec-value">ImageNet Pretrained</span>
+                </div>
+                <div class="sidebar-spec-row">
+                    <span class="sidebar-spec-label">🏷️ Jumlah Target</span>
+                    <span class="sidebar-spec-value">10 Diagnosa</span>
+                </div>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+        # Pratinjau Kategori Target Deteksi (10 Kelas)
+        st.markdown("""
+        <div style="margin-top: 10px;">
+            <span class="section-tag">// TARGET DETEKSI (10 KELAS)</span>
+            <div class="sidebar-chips-container">
+                <span class="sidebar-chip">🦠 Bercak Bakteri</span>
+                <span class="sidebar-chip">🍂 Hawar Awal</span>
+                <span class="sidebar-chip">🥀 Hawar Akhir</span>
+                <span class="sidebar-chip">🍄 Jamur Daun</span>
+                <span class="sidebar-chip">🔍 Bercak Septoria</span>
+                <span class="sidebar-chip">🕷️ Tungau Laba-laba</span>
+                <span class="sidebar-chip">🎯 Bercak Target</span>
+                <span class="sidebar-chip">🟡 Keriting Kuning</span>
+                <span class="sidebar-chip">🧪 Virus Mosaik</span>
+                <span class="sidebar-chip" style="border-color: rgba(52,211,153,0.4); color:#6ee7b7 !important;">🌱 Daun Sehat</span>
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown('<div class="sidebar-glow-divider"></div>', unsafe_allow_html=True)
+
+    # Section 3: Footer Pengembang & Proyek
+    st.markdown("""
+    <div class="sidebar-footer">
+        <div class="sidebar-footer-name">Ali Rahman Bayanaka</div>
+        <div class="sidebar-footer-badge">NRP: 2614 · Big Data & DL</div>
+        <p class="sidebar-footer-sub">Week 5 — CNN Vision Classifier Studio</p>
+        <p class="sidebar-footer-sub" style="font-size:0.68rem; color:#646485 !important; margin-top:4px;">TensorFlow 2.x · Streamlit · Python 3.11</p>
+    </div>
+    """, unsafe_allow_html=True)
 
 # =============================================================================
 # TENTUKAN KONFIGURASI BERDASARKAN MODE
