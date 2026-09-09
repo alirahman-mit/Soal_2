@@ -11,9 +11,15 @@ from PIL import Image
 import gdown
 
 from utils import load_custom_css, load_tf_model, preprocess_image
+
+# ─────────────────────────────────────────────────────────────────────────────
+# KONFIGURASI HALAMAN (WAJIB PALING ATAS & CUMA BOLEH 1 KALI!)
+# ─────────────────────────────────────────────────────────────────────────────
 st.set_page_config(
     page_title="CNN Image Classifier",
-    layout="wide"
+    page_icon="🔬",
+    layout="wide",
+    initial_sidebar_state="expanded",
 )
 
 # 1. Pastikan folder models tersedia
@@ -42,18 +48,8 @@ def download_models():
 
 # 3. PANGGIL FUNGSINYA DI SINI AGAR BERJALAN!
 download_models()
-# ─────────────────────────────────────────────────────────────────────────────
-# KONFIGURASI HALAMAN
-# ─────────────────────────────────────────────────────────────────────────────
-st.set_page_config(
-    page_title="CNN Image Classifier",
-    page_icon="🔬",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
 
 load_custom_css()
-
 # =============================================================================
 # KONSTANTA MODEL
 # =============================================================================
