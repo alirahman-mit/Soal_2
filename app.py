@@ -57,7 +57,7 @@ load_custom_css()
 # ── Mode 1: Apel vs Jeruk ──────────────────────────────────────────────────
 MODEL_1_PATH   = os.path.join("models", "Model_Custom_ApelJeruk.h5")
 LABELS_MODE_1  = ["Apel", "Jeruk"]
-SIZE_MODE_1    = (224, 224)
+SIZE_MODE_1 = (150, 150)
 
 # ── Mode 2: Penyakit Daun Tomat ────────────────────────────────────────────
 MODEL_2_PATH   = os.path.join("models", "Model_VGG16_Tomat.h5")
@@ -73,7 +73,7 @@ LABELS_MODE_2  = [
     "Tomato Mosaic Virus",      # 8 — Virus Mosaik
     "Healthy",                  # 9 — Daun Sehat
 ]
-SIZE_MODE_2    = (150, 150)
+SIZE_MODE_2 = (224, 224)
 
 CHIP_TOMAT = [
     "chip-red", "chip-red", "chip-red", "chip-yellow", "chip-red",
@@ -110,13 +110,13 @@ with st.sidebar:
         st.markdown("**Model Aktif:**")
         st.code("Model_Custom_ApelJeruk.h5", language="")
         st.markdown("**Arsitektur:** Custom CNN")
-        st.markdown("**Input Shape:** `(224 × 224 × 3)`")
+        st.markdown("**Input Shape:** `(150 × 150 × 3)`")
         st.markdown("**Output:** Binary Sigmoid")
     else:
         st.markdown("**Model Aktif:**")
         st.code("Model_VGG16_Tomat.h5", language="")
         st.markdown("**Arsitektur:** VGG16 Fine-tuned")
-        st.markdown("**Input Shape:** `(150 × 150 × 3)`")
+        st.markdown("**Input Shape:** `(224 × 224 × 3)`")
         st.markdown("**Output:** 10 kelas Softmax")
 
     st.markdown("---")
