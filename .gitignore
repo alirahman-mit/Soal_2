@@ -1,0 +1,11 @@
+# Mengabaikan virtual environment
+.venv/
+env/
+venv/
+
+# Mengabaikan cache Python & Streamlit
+__pycache__/
+.streamlit/
+# Mengabaikan file model berukuran raksasa
+models/*.h5
+*.h5
